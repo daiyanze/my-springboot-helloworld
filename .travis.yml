@@ -41,6 +41,10 @@ after_success:
   - export TEXT="[build version] $TAG<br />[datetime] $TIMESTAMP<br />[changelog] $GIT_LOG<br />"
   - chmod +x send_to_teams.sh && ./send_to_teams.sh
 
+after_failure:
+  - export TITLE="Travis:$TRAVIS_JOB_ID -- build job is failed"
+  - export TEXT=[datetime]:`date`
+
 deploy:
   provider: heroku
   api-key:
