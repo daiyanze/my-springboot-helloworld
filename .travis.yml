@@ -27,7 +27,7 @@ script:
 
 after_success:
   - export COMMIT=${TRAVIS_COMMIT::7}
-  - export TAG=`if [ ! -z "$TRAVIS_TAG" ]; then echo "$TRAVIS_TAG"; else echo "$TRAVIS_BRANCH($COMMIT)"; fi`
+  - export TAG=`if [ ! -z "$TRAVIS_TAG" ]; then echo "$TRAVIS_TAG"; else echo "$TRAVIS_BRANCH--$COMMIT"; fi`
   - export IMAGE_NAME=my-springboot-helloworld_app
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker-compose build
