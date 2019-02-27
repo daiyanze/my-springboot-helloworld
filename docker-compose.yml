@@ -1,7 +1,8 @@
 version: "3"
 
 services:
-  hello-world:
+  app:
     build: .
+    container_name: hello-world
     ports:
       - "9908:9908"

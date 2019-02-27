@@ -2,6 +2,7 @@
 Demo application with CI/CD
 
 # Start without Docker
+**<p style="color:crimson">!Build the project with Maven!</p>**
 ```shell
 1. Build jar (maven)
 $ mvn package
