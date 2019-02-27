@@ -3,9 +3,10 @@ Heroku demo application "Hello World" built with Travis CI/CD and Docker
 
 This repository contains a minimalized example for spring boot application which integrates CI/CD and Docker.
 It will help you go through the modernist deployment with some simple usage of Docker and Travis CI.
-After the build completes, it will send message to Teams channel.
+After the build completes, it will send messages to Teams channel.
 
 # Dependencies
+install the following stuff before you start
 - java SDK (oraclejdk8/openjdk8)
 - Maven
 - Docker
@@ -32,9 +33,44 @@ After the build completes, it will send message to Teams channel.
                 └── HelloControllerTest.java
 ```
 
+# Before Start
+Clone the branch to your computer (Fork first is recommended).
+And then install [Travis-CLI](https://github.com/travis-ci/travis.rb).
+
+Use travis cli to encrypt your info
+```shell
+$ travis encrypt IMAGE_NAME="<your-dockerhub-repo>/<your-docker-image>"
+Please add the following to your .travis.yml file:
+  secure: "..."
+$ travis encrypt HEROKU_API_KEY="<your-heroku-api-key>"
+$ travis encrypt DOCKER_USER="<your-dockerhub-username>"
+$ travis encrypt DOCKER_USER="<your-dockerhub-password>"
+$ travis encrypt TEAM_CHANNEL_URL="<your-TEAMS-channel-url>"
+```
+
+The env configurations in .travis.yml file need to be replaced with the encrypted info.
+```yml
+# env:
+#   global:
+#     secure: IMAGE_NAME
+#     secure: HEROKU_API_KEY
+#     secure: DOCKER_USER
+#     secure: DOCKER_PASS
+#     secure: TEAM_CHANNEL_URL
+
+# replace the following configurations
+env:
+  global:
+    secure: <your own encryption>
+    secure: ***
+    secure: ***
+    secure: ***
+    secure: ***
+```
+
+
 # Start Locally
 ## I. Without Docker
-**!Build the project with Maven!**
 ```shell
 1. Build jar (maven)
 $ mvn package
@@ -49,7 +85,6 @@ http://localhost:9908
 ```
 
 ## II. With Docker
-**!Make sure that you have Docker properly installed on your machine!**
 ```shell
 # This command will build the application and run it locally on port 9908
 $ docker-compose up
