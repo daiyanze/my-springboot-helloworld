@@ -32,7 +32,7 @@ after_success:
   - docker login -u $DOCKER_USER -p $DOCKER_PASS
   - docker-compose build
   - docker tag $IMAGE_NAME:latest $IMAGE_NAME:$TAG
-  - docker push daiyanze/$IMAGE_NAME
+  - docker push daiyanze/$IMAGE_NAME:$TAG
 
 deploy:
   provider: heroku
