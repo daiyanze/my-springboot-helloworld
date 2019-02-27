@@ -3,6 +3,7 @@ Heroku demo application "Hello World" built with Travis CI/CD and Docker
 
 This repository contains a minimalized example for spring boot application which integrates CI/CD and Docker.
 It will help you go through the modernist deployment with some simple usage of Docker and Travis CI.
+After the build completes, it will send message to Teams channel.
 
 # Dependencies
 - java SDK (oraclejdk8/openjdk8)
