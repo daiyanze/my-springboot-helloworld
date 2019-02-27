@@ -1,0 +1,44 @@
+language: java
+
+jdk:
+  - openjdk8
+
+services:
+  - docker
+
+# env:
+#   global:
+#     secure: HEROKU_API_KEY
+#     secure: DOCKER_USER
+#     secure: DOCKER_PASS
+
+env:
+  global:
+    - secure: EGht+6Ph8dV2YA8TgH74qhn1YCHSoo330MNVz+KMzGVp0qa7K0ySDMgGTPT/BAIgY2BGcwGhTTXoKJ3H7nL9ivH2/F9ckUPjq58P4PUZtJ/2qHZ4iQwAPtCsrSF1eLbbA2AB6ItT9T4JZ+wGPVGdGOdDKG3GjchyHomdYtGCBp+MltQBnrIA1kWcJuhEmAwa3mh5cag5D4LJCm31Sssd9T/OTqKqLWk6+ehVMprxCvpI848wRwhV2Z3PQc3AQDzi2hlINzgsLNfr+OPc4ONDGRK+e27Y7rxS2lLm9NqitcW1cLeB+NllW452vVby3rHBB9FaqXx+qYSXkZ/ciyYKr2U4knXRRiKLVS1ucJz+MsxWeLLn17X76ZsZmft6KQgSbMaUsJUBzQwCQIic/XbwuFNIUENy1ekOVltkH3UxYcH8Hijfde+YfJQFEvAVoRkjF3OrBd27cBlegSQrcLUcD7GTp4IbGKI0i1tyFdwtnWhWVAj+hNI3ldmyr9xhQ5GGDgZVdvUKv1hD1J2hVN5ufXrf0HPXT1WRbLA3KKylCveusBzxPrn9/N0P4UWQuvguLr12ccmoQhnu8CUV+cigpoSHOJnmsymoj03a9Zo3JoS4ivu5Bfls/aBdAJe83soLjJToGrnrScJS08WGIfa0nxFD1vQG6wyZGs59zG7i9OU=
+    - secure: a6s7bwjNoZAfhbvVas6XvgT/TcHyg+LOId3br+N/TGPrNq6rP+q7L7XM/Cmiw52JVu8bZhoxfhJXAYp2jONOrymO/9nRHidWTnG+AcVLMlPhSyQvT4yjUCsb/DBcpC9Ft07xJY3oE2xP42Exk/y0AH++ni0FmVXRxKyFh3gb24SnBW1gfZ6LZPaOi5akjbb+p1D/FwBltzc351UAuv9iLLjS/U7ufhq9nadpDeEUM7BDNSS56a1xRcuekJPTbgYr7qhmtobUKocWf1z3WUKIwOPLwXBZRcGgOAcGMrFr5xhIl3HlKJX4gPosz6Oy3EP0BD7/rirAh2jHTA16QpyJnsW2QTkTgJr5t8mBBpfus5jrCTIC4yOzALfp2FTiNdtnLuVXLEBqIZ+hP5FyyraZ926eDYYXU21CJosNh5CxfEdQ0DGb8TJimyOFHtf8YK9LT4qJx0uJLCHXK6rzaauzI752qrBZWh/c5jXoSvn4S57maVkx1BwYcc1C2ToEPCxvTACK5z16+6lD2u/a79g4psMdHcbZaDX2LddnfybLAknS1VBqGQBcyrR5RFWnBDJQm7Tv2FQdZURKBw/Wgz6gOGsVigik+1tvm6e/7iFHGOQQx6o+QEqNonRB/+nF2uhp5+AltKz1v420hf48rgoG/fjSUPogm+GguQZwDVGN5LM=
+    - secure: V4jCpA30i66MdMuit5FuA8mt4ChcHhoD6eEkCWAlZqKSK2RFEejfQQPoqnO2Xevs6vYbQjlufXYuIH0JGcY0VisSnJwoYAb0NihWHz1XOxgkUD3r7Zp5pmS0dUfbF5HNLupjdaB9qQ3Lqgo34tjxHO1Rgw0e0Cf0+2aqlgLEoTELP+MMqIa0syj+U4ybmsOQz/VQlRGa2hAzDXkKelBMnTCBxlg1bmHytGts89U63QhZ+RHD3UPYUxvt12ZzXzV97LHc5SE5vjJDmeTbKxmJy3lgKrMMepJ8Fo9D2HeA5ZvaPCEF1pgCXFR8WFA9oOsuBD+XS4htIeTuSdO2hB5kjt/9NYVvbrCh3F0sQ++ko6uylvBC/jzzYhXkPpMMklChZS+pEP1e//WNbvfWE/vPF2l//FwOE10iFgOkXbw/IvS7jA4drzUMSy0IwuJnDJ45pxmM2xu9qQLKXT7D8eyIuQTi+ThW7RlkXZkUdW4jB7/8QH1SrSggEwjXV45JnhRiq2RpVCWUIN16G+4yD4H4Ye4yZJRhyfwLYA20S+vlbvioT06AmlS6HXiZyzmKfG1MlZbwod4x75xUrS7SSWT8WrdNp196g/hsrki1Eniam6q1SjZK/AuHp1EEyJUOd+Yo1/ylDkg1Qh/2Qy70eInOGQVVpwEOGr5bqJ+CPkXiovw=
+
+before_install:
+  - docker pull openjdk:8-jdk-alpine
+
+script:
+  - mvn test
+  - mvn clean package
+
+after_success:
+  - export COMMIT=${TRAVIS_COMMIT::7}
+  - export TAG=`if [ ! -z "$TRAVIS_TAG" ]; then echo "$TRAVIS_TAG"; else echo "$TRAVIS_BRANCH($COMMIT)"; fi`
+  - export IMAGE_NAME=my-springboot-helloworld_app
+  - docker login -u $DOCKER_USER -p $DOCKER_PASS
+  - docker-compose build
+  - docker tag $IMAGE_NAME:latest $IMAGE_NAME:$TAG
+  - docker push $IMAGE_NAME
+
+deploy:
+  provider: heroku
+  api-key:
+    secure: "$HEROKU_API_KEY"
+  app: my-springboot-helloworld
+  on:
+    tags: true
+    repo: daiyanze/my-springboot-helloworld
