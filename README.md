@@ -1,4 +1,4 @@
-# my-springboot-helloworld
+# my-springboot-helloworld [![Build Status](https://travis-ci.org/daiyanze/my-springboot-helloworld.svg?branch=master)](https://travis-ci.org/daiyanze/my-springboot-helloworld)
 Heroku demo application "Hello World" built with Travis CI/CD and Docker
 
 This repository contains a minimalized example for spring boot application which integrates CI/CD and Docker.
