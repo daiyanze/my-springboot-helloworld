@@ -8,7 +8,7 @@ public class HelloController {
 
     @RequestMapping("/")
     public String index() {
-        return "<h2>Hello World! This website is made with Docker.</h2>";
+        return "<h2>Hello World!</h2>";
     }
 
 }
