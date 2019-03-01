@@ -36,7 +36,7 @@ after_success:
   - docker tag $IMAGE_NAME:latest $IMAGE_NAME:$TAG
   - docker push $IMAGE_NAME:$TAG
   - export TITLE="$IMAGE_NAME:$TAG is built properly and pushed to Dockerhub"
-  - export TIMESTAMP=date
+  - export TIMESTAMP=`date`
   - export GIT_LOG=`git log -1 --pretty=%B $COMMIT`
   - export TEXT="[build version] $TAG<br />[datetime] $TIMESTAMP<br />[changelog] $GIT_LOG<br />"
   - chmod +x send_to_teams.sh && ./send_to_teams.sh
