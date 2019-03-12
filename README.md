@@ -41,11 +41,23 @@ Use travis cli to encrypt your info
 ```shell
 $ travis encrypt IMAGE_NAME="<your-dockerhub-repo>/<your-docker-image>"
 Please add the following to your .travis.yml file:
-  secure: "..."
+  secure: "<encrypted_IMAGE_NAME>"
+
 $ travis encrypt HEROKU_API_KEY="<your-heroku-api-key>"
+Please add the following to your .travis.yml file:
+  secure: "<encrypted_HEROKU_API_KEY>"
+
 $ travis encrypt DOCKER_USER="<your-dockerhub-username>"
-$ travis encrypt DOCKER_USER="<your-dockerhub-password>"
+Please add the following to your .travis.yml file:
+  secure: "<encrypted_DOCKER_USER>"
+
+$ travis encrypt DOCKER_PASSWORD="<your-dockerhub-password>"
+Please add the following to your .travis.yml file:
+  secure: "<encrypted_DOCKER_PASSWORD>"
+
 $ travis encrypt TEAM_CHANNEL_URL="<your-TEAMS-channel-url>"
+Please add the following to your .travis.yml file:
+  secure: "<encrypted_TEAM_CHANNEL_URL>"
 ```
 
 The env configurations in .travis.yml file need to be replaced with the encrypted info.

@@ -24,10 +24,12 @@ env:
 before_install:
   - docker pull openjdk:8-jdk-alpine
 
+# Test & Build SpringBoot app
 script:
   - mvn test
   - mvn clean package
 
+# Create Docker image for our app and push it to Dockerhub repository and send messages to the Teams channel after the `script` job is successfully executed
 after_success:
   - export COMMIT=${TRAVIS_COMMIT::7}
   - export TAG=`if [ ! -z "$TRAVIS_TAG" ]; then echo "$TRAVIS_TAG"; else echo "$TRAVIS_BRANCH--$COMMIT"; fi`
@@ -41,10 +43,12 @@ after_success:
   - export TEXT="[build version] $TAG<br />[datetime] $TIMESTAMP<br />[changelog] $GIT_LOG<br />"
   - chmod +x send_to_teams.sh && ./send_to_teams.sh
 
+# If the `script` job fails, it will send a failure message to Teams channel
 after_failure:
   - export TITLE="Travis:$TRAVIS_JOB_ID -- build job is failed"
   - export TEXT=[datetime]:`date`
 
+# Allow Travis to help deploy the app on Heroku
 deploy:
   provider: heroku
   api-key:
@@ -54,6 +58,7 @@ deploy:
     tags: true
     repo: "$IMAGE_NAME"
 
+# Send the message of success after the deploy is done properly
 after_deploy:
   - export TITLE="🎉🎉🎉New version $TAG is deployed to Heroku production🎉🎉🎉"
   - export TEXT=[datetime]:`date`
